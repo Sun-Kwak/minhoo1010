@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/components/OrderSummary.tsx",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1761997897695,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1761997897695,
+            "name": "Commit-0",
+            "content": "import React from 'react';\nimport { OrderItem } from '../types/IceCream';\nimport './OrderSummary.css';\n\ninterface OrderSummaryProps {\n  orderItems: OrderItem[];\n  totalPrice: number;\n  onRemoveItem: (productId: number) => void;\n  onClearOrder: () => void;\n}\n\nconst OrderSummary: React.FC<OrderSummaryProps> = ({\n  orderItems,\n  totalPrice,\n  onRemoveItem,\n  onClearOrder\n}) => {\n  const formatPrice = (price: number) => {\n    return `${price.toLocaleString()}원`;\n  };\n\n  const handlePayment = () => {\n    if (orderItems.length === 0) {\n      alert('주문할 상품을 선택해주세요!');\n      return;\n    }\n    \n    alert(`총 ${formatPrice(totalPrice)}의 결제가 완료되었습니다!\\n감사합니다! 🍦`);\n    onClearOrder();\n  };\n\n  return (\n    <div className=\"order-summary\">\n      <h2>주문 내역</h2>\n      \n      {orderItems.length === 0 ? (\n        <div className=\"empty-order\">\n          <p>선택된 상품이 없습니다</p>\n          <div className=\"empty-icon\">🛒</div>\n        </div>\n      ) : (\n        <>\n          <div className=\"order-items\">\n            {orderItems.map(item => (\n              <div key={item.product.id} className=\"order-item\">\n                <div className=\"item-info\">\n                  <span className=\"item-name\">{item.product.name}</span>\n                  <span className=\"item-quantity\">× {item.quantity}</span>\n                </div>\n                <div className=\"item-controls\">\n                  <span className=\"item-price\">\n                    {formatPrice(item.product.price * item.quantity)}\n                  </span>\n                  <button\n                    className=\"remove-btn\"\n                    onClick={() => onRemoveItem(item.product.id)}\n                    title=\"수량 줄이기\"\n                  >\n                    −\n                  </button>\n                </div>\n              </div>\n            ))}\n          </div>\n\n          <div className=\"order-total\">\n            <div className=\"total-line\">\n              <span>총 금액</span>\n              <span className=\"total-price\">{formatPrice(totalPrice)}</span>\n            </div>\n          </div>\n\n          <div className=\"order-actions\">\n            <button className=\"clear-btn\" onClick={onClearOrder}>\n              전체 삭제\n            </button>\n            <button className=\"payment-btn\" onClick={handlePayment}>\n              결제하기\n            </button>\n          </div>\n        </>\n      )}\n    </div>\n  );\n};\n\nexport default OrderSummary;"
+        }
+    ]
+}

@@ -1,0 +1,622 @@
+.infinite-stairs-game {
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  position: relative;
+  overflow: hidden;
+  font-family: 'Arial', sans-serif;
+}
+
+/* 게임 UI */
+.game-ui {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 100;
+  color: white;
+}
+
+.score {
+  font-size: 24px;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  margin-bottom: 15px;
+}
+
+/* 게이지 시스템 */
+.gauge-container {
+  background: rgba(0, 0, 0, 0.7);
+  padding: 15px;
+  border-radius: 10px;
+  min-width: 200px;
+  margin-bottom: 15px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.gauge-label {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  text-align: center;
+  color: #ffffff;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.gauge-bar {
+  width: 100%;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  position: relative;
+}
+
+.gauge-fill {
+  height: 100%;
+  transition: width 0.1s ease-out;
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.gauge-fill.safe {
+  background: linear-gradient(90deg, #4ecdc4, #44a08d);
+  box-shadow: 0 0 15px rgba(78, 205, 196, 0.6);
+}
+
+.gauge-fill.warning {
+  background: linear-gradient(90deg, #ffecd2, #fcb69f);
+  box-shadow: 0 0 15px rgba(255, 193, 7, 0.6);
+}
+
+.gauge-fill.danger {
+  background: linear-gradient(90deg, #ff6b6b, #ee5a52);
+  box-shadow: 0 0 15px rgba(255, 107, 107, 0.8);
+  animation: gaugePulse 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes gaugePulse {
+  0% { opacity: 0.8; }
+  100% { opacity: 1; }
+}
+
+.gauge-fill::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(255, 255, 255, 0.3) 50%, 
+    transparent 100%);
+  animation: gaugeShine 2s ease-in-out infinite;
+}
+
+@keyframes gaugeShine {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.gauge-value {
+  font-size: 12px;
+  text-align: center;
+  margin-top: 5px;
+  font-weight: bold;
+  color: #ffffff;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.game-over {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.9);
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  color: white;
+  z-index: 200;
+}
+
+.game-over h2 {
+  margin: 0 0 10px 0;
+  color: #ff6b6b;
+}
+
+.time-up {
+  color: #ff4757;
+  font-weight: bold;
+  margin: 10px 0;
+  animation: timeUpBlink 1s ease-in-out infinite alternate;
+}
+
+@keyframes timeUpBlink {
+  0% { opacity: 0.7; }
+  100% { opacity: 1; }
+}
+
+.game-over button {
+  background: #4ecdc4;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: background 0.3s;
+}
+
+.game-over button:hover {
+  background: #45b7aa;
+}
+
+/* 게임 컨테이너 */
+.game-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.game-world {
+  position: absolute;
+  left: 50vw; /* 뷰포트 너비의 50% */
+  top: 50vh; /* 뷰포트 높이의 50% */
+  transition: transform 0.3s ease;
+  transform-origin: 0 0; /* 원점을 기준으로 변환 */
+}
+
+/* 계단 블록 */
+.stair-block {
+  position: absolute;
+  width: 50px;
+  height: 20px;
+}
+
+.stair-top {
+  position: absolute;
+  width: 50px;
+  height: 30px;
+  background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+  border-radius: 5px;
+  box-shadow: 
+    0 2px 5px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  border: 2px solid #c44569;
+}
+
+.stair-front {
+  position: absolute;
+  width: 50px;
+  height: 20px;
+  background: linear-gradient(180deg, #ee5a52, #c44569);
+  top: 25px;
+  border-radius: 0 0 5px 5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  border: 2px solid #a93d5e;
+  border-top: none;
+}
+
+/* 플레이어 컨테이너 */
+.player-container {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  z-index: 50;
+  transition: transform 0.3s ease;
+  transform-origin: center bottom;
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5));
+}
+
+.player-container.right {
+  transform: scaleX(1); /* 오른쪽을 향함 */
+}
+
+.player-container.left {
+  transform: scaleX(-1); /* 왼쪽을 향하도록 뒤집기 */
+}
+
+/* 플레이어 캐릭터 */
+.player-character {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  animation: playerBounce 1s ease-in-out infinite;
+}
+
+.player-head {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: #ffdbac;
+  border-radius: 50%;
+  top: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 2px solid #8b4513;
+}
+
+/* 얼굴 특징 - 측면을 바라보는 형태 */
+.player-head::before {
+  content: '';
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: #000;
+  border-radius: 50%;
+  top: 3px;
+  right: 2px; /* 오른쪽을 바라보는 눈 */
+}
+
+.player-head::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 2px solid transparent;
+  border-right: 2px solid transparent;
+  border-top: 1px solid #d4946b;
+  top: 5px;
+  right: 3px; /* 오른쪽을 바라보는 코 */
+}
+
+.player-body {
+  position: absolute;
+  width: 16px;
+  height: 14px;
+  background: #4a90e2;
+  border-radius: 8px 8px 4px 4px;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 1px solid #2171b5;
+}
+
+/* 몸통에 팔 추가 - 측면 느낌 */
+.player-body::before {
+  content: '';
+  position: absolute;
+  width: 4px;
+  height: 8px;
+  background: #ffdbac;
+  border-radius: 2px;
+  top: 2px;
+  right: -2px; /* 오른쪽으로 나온 팔 */
+  border: 1px solid #8b4513;
+}
+
+.player-legs {
+  position: absolute;
+  width: 10px;
+  height: 8px;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* 두 다리를 분리해서 걸음걸이 표현 */
+.player-legs::before {
+  content: '';
+  position: absolute;
+  width: 4px;
+  height: 8px;
+  background: #654321;
+  border-radius: 2px;
+  left: 1px;
+  animation: legWalk1 0.6s ease-in-out infinite alternate;
+}
+
+.player-legs::after {
+  content: '';
+  position: absolute;
+  width: 4px;
+  height: 8px;
+  background: #654321;
+  border-radius: 2px;
+  right: 1px;
+  animation: legWalk2 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes legWalk1 {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(-1px) rotate(5deg); }
+}
+
+@keyframes legWalk2 {
+  0% { transform: translateY(-1px) rotate(-5deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+
+.player-direction-arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 8px solid #ff4757;
+  top: -10px;
+  right: -3px;
+  animation: arrowPulse 1.5s ease-in-out infinite;
+  transform: rotate(45deg); /* 오른쪽 방향을 더 명확히 */
+}
+
+/* 화살표에 작은 꼬리 추가 */
+.player-direction-arrow::after {
+  content: '';
+  position: absolute;
+  width: 2px;
+  height: 6px;
+  background: #ff4757;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+@keyframes playerBounce {
+  0%, 100% { 
+    transform: translateY(0); 
+  }
+  50% { 
+    transform: translateY(-3px); 
+  }
+}
+
+@keyframes arrowPulse {
+  0%, 100% { 
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+/* 컨트롤 버튼 */
+.controls {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 20px;
+  z-index: 100;
+}
+
+.control-btn {
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  padding: 15px 25px;
+  border-radius: 15px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  min-width: 120px;
+}
+
+.control-btn:hover:not(:disabled) {
+  background: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.control-btn:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.control-btn:disabled {
+  background: rgba(128, 128, 128, 0.5);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.direction-btn {
+  background: rgba(255, 107, 107, 0.9);
+  color: white;
+}
+
+.direction-btn:hover:not(:disabled) {
+  background: #ff6b6b;
+}
+
+.move-btn {
+  background: rgba(78, 205, 196, 0.9);
+  color: white;
+}
+
+.move-btn:hover:not(:disabled) {
+  background: #4ecdc4;
+}
+
+/* 게임 설명 */
+.instructions {
+  position: absolute;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  z-index: 100;
+  display: none; /* 키보드 힌트 숨기기 */
+}
+
+/* 모바일 반응형 */
+@media (max-width: 768px) {
+  .controls {
+    bottom: 20px;
+    gap: 15px;
+  }
+  
+  .control-btn {
+    padding: 12px 20px;
+    font-size: 14px;
+    min-width: 100px;
+  }
+  
+  .instructions {
+    bottom: 80px;
+    font-size: 12px;
+    padding: 8px 15px;
+  }
+  
+  .score {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  
+  /* 모바일용 게이지 스타일 */
+  .gauge-container {
+    padding: 10px;
+    min-width: 160px;
+    margin-bottom: 10px;
+  }
+  
+  .gauge-label {
+    font-size: 12px;
+    margin-bottom: 6px;
+  }
+  
+  .gauge-bar {
+    height: 16px;
+  }
+  
+  .gauge-value {
+    font-size: 11px;
+    margin-top: 4px;
+  }
+  
+  .player-container {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .player-head {
+    width: 10px;
+    height: 10px;
+  }
+  
+  .player-head::before {
+    width: 1.5px;
+    height: 1.5px;
+    top: 2.5px;
+    right: 1.5px;
+  }
+  
+  .player-head::after {
+    border-left: 1.5px solid transparent;
+    border-right: 1.5px solid transparent;
+    border-top: 0.8px solid #d4946b;
+    top: 4px;
+    right: 2px;
+  }
+  
+  .player-body {
+    width: 12px;
+    height: 11px;
+    top: 9px;
+  }
+  
+  .player-body::before {
+    width: 3px;
+    height: 6px;
+    top: 1.5px;
+    right: -1.5px;
+  }
+  
+  .player-legs {
+    width: 8px;
+    height: 6px;
+    top: 18px;
+  }
+  
+  .player-legs::before,
+  .player-legs::after {
+    width: 3px;
+    height: 6px;
+  }
+  
+  .player-direction-arrow {
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-bottom: 6px solid #ff4757;
+    top: -8px;
+    right: -2px;
+  }
+  
+  .player-direction-arrow::after {
+    width: 1.5px;
+    height: 4px;
+    bottom: -1.5px;
+  }
+  
+  .stair-block {
+    width: 40px;
+    height: 16px;
+  }
+  
+  .stair-top {
+    width: 40px;
+    height: 24px;
+  }
+  
+  .stair-front {
+    width: 40px;
+    height: 16px;
+    top: 20px;
+  }
+  
+  .game-world {
+    transform-origin: center center;
+  }
+}
+
+/* 계단 호버 효과 */
+.stair-block:hover .stair-top {
+  box-shadow: 
+    0 2px 5px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    0 0 15px rgba(255, 107, 107, 0.6);
+}
+
+/* 다양한 계단 색상 */
+.stair-block:nth-child(even) .stair-top {
+  background: linear-gradient(45deg, #4ecdc4, #44a08d);
+  border-color: #2d5a87;
+}
+
+.stair-block:nth-child(even) .stair-front {
+  background: linear-gradient(180deg, #44a08d, #2d5a87);
+  border-color: #1e3d59;
+}
+
+.stair-block:nth-child(3n) .stair-top {
+  background: linear-gradient(45deg, #ffecd2, #fcb69f);
+  border-color: #ff8a80;
+}
+
+.stair-block:nth-child(3n) .stair-front {
+  background: linear-gradient(180deg, #fcb69f, #ff8a80);
+  border-color: #ff5722;
+}
+
+.stair-block:nth-child(4n) .stair-top {
+  background: linear-gradient(45deg, #a8edea, #fed6e3);
+  border-color: #d299c2;
+}
+
+.stair-block:nth-child(4n) .stair-front {
+  background: linear-gradient(180deg, #fed6e3, #d299c2);
+  border-color: #c2185b;
+}

@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/components/IceCreamPOS.css",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1761997897752,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1761997897752,
+            "name": "Commit-0",
+            "content": ".ice-cream-pos {\n  min-height: 100vh;\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n}\n\n.pos-header {\n  text-align: center;\n  padding: 2rem;\n  background: rgba(255, 255, 255, 0.1);\n  backdrop-filter: blur(10px);\n  color: white;\n  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);\n}\n\n.pos-header h1 {\n  margin: 0;\n  font-size: 2.5rem;\n  font-weight: 700;\n  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);\n}\n\n.pos-header p {\n  margin: 0.5rem 0 0 0;\n  font-size: 1.2rem;\n  opacity: 0.9;\n}\n\n.pos-content {\n  display: flex;\n  gap: 2rem;\n  padding: 2rem;\n  max-width: 1400px;\n  margin: 0 auto;\n  min-height: calc(100vh - 200px);\n}\n\n.products-section {\n  flex: 2;\n  background: white;\n  border-radius: 20px;\n  padding: 1.5rem;\n  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);\n}\n\n.order-section {\n  flex: 1;\n  background: white;\n  border-radius: 20px;\n  padding: 1.5rem;\n  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);\n  position: sticky;\n  top: 2rem;\n  height: fit-content;\n  max-height: calc(100vh - 4rem);\n  overflow-y: auto;\n}\n\n.category-tabs {\n  display: flex;\n  gap: 0.5rem;\n  margin-bottom: 1.5rem;\n  flex-wrap: wrap;\n}\n\n.category-tab {\n  padding: 0.75rem 1.5rem;\n  border: none;\n  background: #f8f9fa;\n  color: #6c757d;\n  border-radius: 25px;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  font-weight: 500;\n  white-space: nowrap;\n}\n\n.category-tab:hover {\n  background: #e9ecef;\n  transform: translateY(-2px);\n}\n\n.category-tab.active {\n  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);\n  color: white;\n  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);\n}\n\n@media (max-width: 768px) {\n  .pos-content {\n    flex-direction: column;\n    padding: 1rem;\n    gap: 1rem;\n  }\n\n  .pos-header {\n    padding: 1.5rem;\n  }\n\n  .pos-header h1 {\n    font-size: 2rem;\n  }\n\n  .order-section {\n    position: static;\n    max-height: none;\n  }\n\n  .category-tabs {\n    justify-content: center;\n  }\n}"
+        }
+    ]
+}

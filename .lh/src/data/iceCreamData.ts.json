@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/data/iceCreamData.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1761997897624,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1761997897624,
+            "name": "Commit-0",
+            "content": "import { IceCreamProduct } from '../types/IceCream';\n\nexport const iceCreamProducts: IceCreamProduct[] = [\n  {\n    id: 1,\n    name: '바닐라 콘',\n    price: 3000,\n    description: '부드러운 바닐라 아이스크림',\n    category: 'cone',\n    available: true\n  },\n  {\n    id: 2,\n    name: '초콜릿 콘',\n    price: 3200,\n    description: '진한 초콜릿 아이스크림',\n    category: 'cone',\n    available: true\n  },\n  {\n    id: 3,\n    name: '딸기 콘',\n    price: 3500,\n    description: '신선한 딸기 아이스크림',\n    category: 'cone',\n    available: true\n  },\n  {\n    id: 4,\n    name: '민트초콜릿 콘',\n    price: 3800,\n    description: '시원한 민트와 초콜릿 칩',\n    category: 'cone',\n    available: true\n  },\n  {\n    id: 5,\n    name: '바닐라 컵',\n    price: 2500,\n    description: '컵에 담은 바닐라 아이스크림',\n    category: 'cup',\n    available: true\n  },\n  {\n    id: 6,\n    name: '초콜릿 컵',\n    price: 2700,\n    description: '컵에 담은 초콜릿 아이스크림',\n    category: 'cup',\n    available: true\n  },\n  {\n    id: 7,\n    name: '딸기 컵',\n    price: 3000,\n    description: '컵에 담은 딸기 아이스크림',\n    category: 'cup',\n    available: true\n  },\n  {\n    id: 8,\n    name: '아이스크림 막대',\n    price: 1500,\n    description: '간편한 막대 아이스크림',\n    category: 'stick',\n    available: true\n  },\n  {\n    id: 9,\n    name: '쿠키앤크림 막대',\n    price: 2000,\n    description: '쿠키가 들어간 막대 아이스크림',\n    category: 'stick',\n    available: true\n  },\n  {\n    id: 10,\n    name: '레인보우 선데',\n    price: 5500,\n    description: '다양한 토핑과 과일이 들어간 특별 메뉴',\n    category: 'special',\n    available: true\n  },\n  {\n    id: 11,\n    name: '초콜릿 브라우니 선데',\n    price: 6000,\n    description: '브라우니와 초콜릿 소스가 들어간 선데',\n    category: 'special',\n    available: true\n  },\n  {\n    id: 12,\n    name: '딸기 치즈케이크 선데',\n    price: 6500,\n    description: '치즈케이크와 딸기 소스 선데',\n    category: 'special',\n    available: true\n  }\n];"
+        }
+    ]
+}
