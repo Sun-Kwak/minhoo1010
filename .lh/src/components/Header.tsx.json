@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/components/Header.tsx",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1761996875513,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1761996875513,
+            "name": "Commit-0",
+            "content": "import React, { useState } from 'react';\nimport './Header.css';\n\nconst Header: React.FC = () => {\n  const [isMenuOpen, setIsMenuOpen] = useState(false);\n\n  const toggleMenu = () => {\n    setIsMenuOpen(!isMenuOpen);\n  };\n\n  const scrollToSection = (sectionId: string) => {\n    const element = document.getElementById(sectionId);\n    if (element) {\n      element.scrollIntoView({ behavior: 'smooth' });\n    }\n    setIsMenuOpen(false);\n  };\n\n  return (\n    <header className=\"header\">\n      <div className=\"header-container\">\n        <div className=\"logo\">\n          <h2>AutoMeter Pro</h2>\n          <span className=\"logo-subtitle\">계측기 전문기업</span>\n        </div>\n        \n        <nav className={`nav ${isMenuOpen ? 'nav-open' : ''}`}>\n          <ul className=\"nav-list\">\n            <li><button onClick={() => scrollToSection('home')}>홈</button></li>\n            <li><button onClick={() => scrollToSection('about')}>회사소개</button></li>\n            <li><button onClick={() => scrollToSection('services')}>서비스</button></li>\n            <li><button onClick={() => scrollToSection('contact')}>문의하기</button></li>\n          </ul>\n        </nav>\n\n        <button className=\"menu-toggle\" onClick={toggleMenu}>\n          <span></span>\n          <span></span>\n          <span></span>\n        </button>\n      </div>\n    </header>\n  );\n};\n\nexport default Header;"
+        }
+    ]
+}

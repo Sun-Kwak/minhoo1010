@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/minhoo1010/static/css/main.97abe675.css",
+    "main.js": "/minhoo1010/static/js/main.ab60845a.js",
+    "static/js/453.06783c56.chunk.js": "/minhoo1010/static/js/453.06783c56.chunk.js",
+    "index.html": "/minhoo1010/index.html",
+    "main.97abe675.css.map": "/minhoo1010/static/css/main.97abe675.css.map",
+    "main.ab60845a.js.map": "/minhoo1010/static/js/main.ab60845a.js.map",
+    "453.06783c56.chunk.js.map": "/minhoo1010/static/js/453.06783c56.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.97abe675.css",
+    "static/js/main.ab60845a.js"
+  ]
+}

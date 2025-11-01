@@ -1,0 +1,22 @@
+{
+    "sourceFile": "src/components/ProductGrid.tsx",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1761997897666,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1761998225810,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,13 +28,17 @@\n   };\n \n   return (\n     <div className=\"product-grid\">\n-      {products.map(product => (\n+      {products.map((product, index) => (\n         <div\n           key={product.id}\n           className={`product-card ${!product.available ? 'unavailable' : ''}`}\n           onClick={() => product.available && onProductClick(product)}\n+          style={{\n+            animationDelay: `${index * 0.3}s, ${index * 0.4}s`,\n+            animationDuration: '8s, 6s'\n+          }}\n         >\n           <div className=\"product-emoji\">\n             {getCategoryEmoji(product.category)}\n           </div>\n"
+                }
+            ],
+            "date": 1761997897666,
+            "name": "Commit-0",
+            "content": "import React from 'react';\nimport { IceCreamProduct } from '../types/IceCream';\nimport './ProductGrid.css';\n\ninterface ProductGridProps {\n  products: IceCreamProduct[];\n  onProductClick: (product: IceCreamProduct) => void;\n}\n\nconst ProductGrid: React.FC<ProductGridProps> = ({ products, onProductClick }) => {\n  const getCategoryEmoji = (category: string) => {\n    switch (category) {\n      case 'cone':\n        return '🍦';\n      case 'cup':\n        return '🥤';\n      case 'stick':\n        return '🍡';\n      case 'special':\n        return '🍨';\n      default:\n        return '🍦';\n    }\n  };\n\n  const formatPrice = (price: number) => {\n    return `${price.toLocaleString()}원`;\n  };\n\n  return (\n    <div className=\"product-grid\">\n      {products.map(product => (\n        <div\n          key={product.id}\n          className={`product-card ${!product.available ? 'unavailable' : ''}`}\n          onClick={() => product.available && onProductClick(product)}\n        >\n          <div className=\"product-emoji\">\n            {getCategoryEmoji(product.category)}\n          </div>\n          <div className=\"product-info\">\n            <h3 className=\"product-name\">{product.name}</h3>\n            <p className=\"product-description\">{product.description}</p>\n            <div className=\"product-price\">{formatPrice(product.price)}</div>\n            {!product.available && (\n              <div className=\"unavailable-badge\">품절</div>\n            )}\n          </div>\n        </div>\n      ))}\n    </div>\n  );\n};\n\nexport default ProductGrid;"
+        }
+    ]
+}

@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/types/IceCream.ts",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1761997897598,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1761997897598,
+            "name": "Commit-0",
+            "content": "export interface IceCreamProduct {\n  id: number;\n  name: string;\n  price: number;\n  description: string;\n  category: 'cone' | 'cup' | 'stick' | 'special';\n  image?: string;\n  available: boolean;\n}\n\nexport interface OrderItem {\n  product: IceCreamProduct;\n  quantity: number;\n}\n\nexport interface Order {\n  id: string;\n  items: OrderItem[];\n  total: number;\n  timestamp: Date;\n}"
+        }
+    ]
+}

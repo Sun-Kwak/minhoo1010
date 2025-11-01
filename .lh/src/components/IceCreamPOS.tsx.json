@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/components/IceCreamPOS.tsx",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1761997897644,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1761997897644,
+            "name": "Commit-0",
+            "content": "import React, { useState } from 'react';\nimport { IceCreamProduct, OrderItem } from '../types/IceCream';\nimport { iceCreamProducts } from '../data/iceCreamData';\nimport ProductGrid from './ProductGrid';\nimport OrderSummary from './OrderSummary';\nimport './IceCreamPOS.css';\n\nconst IceCreamPOS: React.FC = () => {\n  const [orderItems, setOrderItems] = useState<OrderItem[]>([]);\n  const [selectedCategory, setSelectedCategory] = useState<string>('all');\n\n  const categories = [\n    { id: 'all', name: '전체' },\n    { id: 'cone', name: '콘 아이스크림' },\n    { id: 'cup', name: '컵 아이스크림' },\n    { id: 'stick', name: '막대 아이스크림' },\n    { id: 'special', name: '특별 메뉴' }\n  ];\n\n  const filteredProducts = selectedCategory === 'all' \n    ? iceCreamProducts \n    : iceCreamProducts.filter(product => product.category === selectedCategory);\n\n  const addToOrder = (product: IceCreamProduct) => {\n    setOrderItems(prevItems => {\n      const existingItem = prevItems.find(item => item.product.id === product.id);\n      if (existingItem) {\n        return prevItems.map(item =>\n          item.product.id === product.id\n            ? { ...item, quantity: item.quantity + 1 }\n            : item\n        );\n      } else {\n        return [...prevItems, { product, quantity: 1 }];\n      }\n    });\n  };\n\n  const removeFromOrder = (productId: number) => {\n    setOrderItems(prevItems => {\n      return prevItems.reduce((acc, item) => {\n        if (item.product.id === productId) {\n          if (item.quantity > 1) {\n            acc.push({ ...item, quantity: item.quantity - 1 });\n          }\n          // quantity가 1이면 아예 제거 (push하지 않음)\n        } else {\n          acc.push(item);\n        }\n        return acc;\n      }, [] as OrderItem[]);\n    });\n  };\n\n  const clearOrder = () => {\n    setOrderItems([]);\n  };\n\n  const getTotalPrice = () => {\n    return orderItems.reduce((total, item) => total + (item.product.price * item.quantity), 0);\n  };\n\n  return (\n    <div className=\"ice-cream-pos\">\n      <header className=\"pos-header\">\n        <h1>🍦 Sweet Dreams 아이스크림</h1>\n        <p>맛있는 아이스크림을 선택하세요!</p>\n      </header>\n\n      <div className=\"pos-content\">\n        <div className=\"products-section\">\n          <div className=\"category-tabs\">\n            {categories.map(category => (\n              <button\n                key={category.id}\n                className={`category-tab ${selectedCategory === category.id ? 'active' : ''}`}\n                onClick={() => setSelectedCategory(category.id)}\n              >\n                {category.name}\n              </button>\n            ))}\n          </div>\n\n          <ProductGrid \n            products={filteredProducts} \n            onProductClick={addToOrder}\n          />\n        </div>\n\n        <div className=\"order-section\">\n          <OrderSummary\n            orderItems={orderItems}\n            totalPrice={getTotalPrice()}\n            onRemoveItem={removeFromOrder}\n            onClearOrder={clearOrder}\n          />\n        </div>\n      </div>\n    </div>\n  );\n};\n\nexport default IceCreamPOS;"
+        }
+    ]
+}
